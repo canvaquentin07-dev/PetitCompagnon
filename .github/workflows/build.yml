@@ -1,0 +1,27 @@
+
+name: Compiler Bonhomme Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Recuperer le projet
+        uses: actions/checkout@v4
+
+      - name: Configurer CMake
+        run: cmake -B build -S .
+
+      - name: Compiler
+        run: cmake --build build --config Release
+
+      - name: Recuperer Bonhomme.exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bonhomme-Windows
+          path: build/Release/Bonhomme.exe
